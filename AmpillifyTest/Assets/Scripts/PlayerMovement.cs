@@ -1,0 +1,79 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerMovement : MonoBehaviour 
+{
+	Rigidbody2D rb;
+	public float speed, jumpPower;
+	float x;
+	bool isRunning;
+	public bool isGrounded, isJumping;
+
+	public Slider kSlider;
+
+
+	void Start ()
+	{
+		isJumping = false;
+		isGrounded = true;
+		rb = GetComponent <Rigidbody2D> ();
+	}
+
+	void FixedUpdate ()
+	{
+		if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+		{
+			transform.localScale = new Vector3 (-1, 1, 1);
+		}
+
+		if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+		{
+			transform.localScale = new Vector3 (1, 1, 1);
+		}
+
+		if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isJumping) 
+		{	
+			isJumping = true;
+			gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+		}
+
+		x = Input.GetAxis ("Horizontal");
+		Vector3 move = new Vector3 (x * speed, rb.velocity.y, 0f);
+		rb.velocity = move;
+
+
+	}
+
+	void OnCollisionEnter2D (Collision2D other)
+	{
+		if(other.gameObject.tag == "book")
+		{
+			Destroy (other.gameObject);
+			UpdateSlider ();
+		}
+
+		if(other.gameObject.tag == "ground")
+		{
+			isGrounded = true;
+			isJumping = false;
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D other)
+	{
+		if(other.gameObject.tag == "ground")
+		{
+			isGrounded = false;
+		}
+	}
+	void UpdateSlider()
+	{
+		if (kSlider.value <= 10) 
+		{
+			kSlider.value++;
+		}
+	}
+
+}
