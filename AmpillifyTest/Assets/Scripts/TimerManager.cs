@@ -26,6 +26,7 @@ public class TimerManager : MonoBehaviour
 	{
 		// Passing the time value to minute variable.
 		min = time;
+		min--;
 
 		// Setting the value of seconds to 60;
 		sec = sixtySec;

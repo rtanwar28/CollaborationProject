@@ -36,7 +36,8 @@ public class PlayerMovement : MonoBehaviour
 		if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isJumping) 
 		{	
 			isJumping = true;
-			gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+			isGrounded = false;
+			rb.velocity = new Vector2 (rb.velocity.x, jumpPower);
 		}
 
 		x = Input.GetAxis ("Horizontal");
@@ -59,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
 			isGrounded = true;
 			isJumping = false;
 		}
+
+
 	}
 
 	void OnCollisionExit2D(Collision2D other)
@@ -68,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
 			isGrounded = false;
 		}
 	}
+
 	void UpdateSlider()
 	{
 		if (kSlider.value <= 10) 
