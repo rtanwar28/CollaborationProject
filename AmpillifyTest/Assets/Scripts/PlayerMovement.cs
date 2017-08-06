@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if(other.gameObject.tag == "book")
 		{
+			Debug.Log (other.gameObject.GetComponentInChildren(typeof(Transform)).name);
 			Destroy (other.gameObject);
 			UpdateSlider ();
 		}
@@ -59,6 +60,12 @@ public class PlayerMovement : MonoBehaviour
 		{
 			isGrounded = true;
 			isJumping = false;
+		}
+
+		if(other.gameObject.tag == "capsule")
+		{
+			Debug.Log ("Changing the color of the game");
+			Destroy (other.gameObject);
 		}
 
 
